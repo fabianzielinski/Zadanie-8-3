@@ -19,10 +19,23 @@ var buttonFht = document.getElementById('btnFht');
 
 
 
-var printText = function( text,  element ) {
+var printText = function(text,  element) {
 	
-	element.innerHTML += text + '<br><br>'; 
+	element.innerHTML = text + '<br><br>'; 
 };
+
+var printTempF = function(text, element) {
+
+	element.innerHTML = ' Temperature is :  '+ '  ' + text + '  F.' +'<br><br>';
+
+};
+
+var printTempC = function(text, element) {
+
+	element.innerHTML = ' Temperature is :  '+ '  ' + text + '  C.' +'<br><br>';
+
+};
+
 
 var takeCelcius = function() {
 
@@ -47,15 +60,15 @@ var celcToFarenhFunction = function(tempCes){
 
 	actTempFht = ((tempCes*1.8)+32);
 
-	return printText(actTempFht, outputTmp);	
+	return printTempF(actTempFht, outputTmp);	
 };
 
 
 var celcToCelciusFunction = function(tempFht){
 	
-	actTempCes = ((tempFht-32)/1.8);
+	actTempCes = Math.round(((tempFht-32)/1.8));
 
-	return printText(actTempCes, outputTmp);	
+	return printTempC(actTempCes, outputTmp), actTempCes;	
 };
 
 var tempInfo = function(tempCes) {
@@ -66,7 +79,7 @@ var tempInfo = function(tempCes) {
 	else if (tempCes > 15) {textInfo = '" It is very nice ..."';}
 			 
 	else if (tempCes <= 5) {textInfo = '" Without a hat and scarf you will not get around "';}
-			
+
 	else {textInfo = '" Dress up warmer "';}
 
 	return printText(textInfo, outputMsg);
@@ -78,30 +91,20 @@ var tempInfo = function(tempCes) {
 btnCes.addEventListener('click', function() {
 
 	takeCelcius();
-	celcToFarenhFunction(tempCes);
-	tempInfo(tempCes);
 
-	// printText(actTempFht, outputTmp);
-	// printText(textInfo, outputMsg);
+	celcToFarenhFunction(tempCes);
+	
+	tempInfo(tempCes);
 
 })
 
 btnFht.addEventListener('click', function() {
 
-	var tempFht = window.prompt('What is the temperature in degrees Farenheit?');	
+	takeFarenheit();
 
-	var	tempCes = ((tempFht-32)/1.8)
+	celcToCelciusFunction(tempFht);
 
-		if (isNaN(tempCes)) {outputMsg.innerHTML = " It' not a temperature !!! " } 
-
-		else { if (tempCes > 15) {outputMsg.innerHTML = '" It is very nice ..."';}
-			 
-			   else if (tempCes <= 5) {outputMsg.innerHTML = '" Without a hat and scarf you will not get around "';}
-			
-			   else {outputMsg.innerHTML = '" Dress up warmer "';}
-			  	
-			outputTmp.innerHTML = '" Temperature is '+ Math.round(tempCes) +'  C "';
-		} 
+	tempInfo(actTempCes);
 })
 
 printText('Click the button! I acout degrees...', outputMsg);
